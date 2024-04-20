@@ -1,0 +1,34 @@
+version: '3.1'
+
+services:
+
+  wordpress:
+    image: wordpress
+    restart: always
+    ports:
+      - 8887:80
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_USER: demoUser # put your username here
+      WORDPRESS_DB_PASSWORD: demo1234 #put your password here
+      WORDPRESS_DB_NAME: MyWordPressDB
+    volumes:
+      - wordpress:/var/www/html
+
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: MyWordPressDB
+      MYSQL_USER: demoUser #this is the above username - make shure this matches line 12
+      MYSQL_PASSWORD: demo1234 #this is the above password - make sure this matches line 13
+      MYSQL_RANDOM_ROOT_PASSWORD: '1'
+    volumes:
+      - db:/var/lib/mysql
+
+volumes:
+  wordpress:
+  db:
+
+    # To run this setup use the following command minus the hashtag
+    # docker-compose -f "path to this file\docker-compose.yml" up -d
